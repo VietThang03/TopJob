@@ -65,13 +65,9 @@ export class JobsService {
     if(!mongoose.Types.ObjectId.isValid(id)){
       throw new BadRequestException(`Not found company with ${id}`)
     }
-    const result = await this.jobModel.findOne({
+   return await this.jobModel.findOne({
       _id: id
     })
-    return {
-      message: 'Get job successfully',
-      result
-    }
   }
 
   async update(id: string, updateJobDto: UpdateJobDto, user: User) {

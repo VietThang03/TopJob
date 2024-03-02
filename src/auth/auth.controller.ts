@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 import { User as UserType } from 'src/users/user.interface';
 import { request } from 'http';
 import { RolesService } from 'src/roles/roles.service';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller("auth")
 export class AuthController {
@@ -17,12 +18,14 @@ export class AuthController {
 
   @Public()
   @UseGuards(LocalAuthGuard)
+  @UseGuards(ThrottlerGuard)
   @Post('/login')
   async handleLogin(@Req() req, @Res({passthrough: true}) response: Response) {
     return await this.authService.login(req.user, response);
   }
 
   @Public()
+  @UseGuards(ThrottlerGuard)
   @Post('/register')
   async handleRegister(@Body() regiserUserDto: RegisterUserDto, @Res({passthrough: true}) response: Response){
     let registerUser = await this.authService.register(regiserUserDto, response)

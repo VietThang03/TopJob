@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
-import { User } from 'src/decorator/customize';
+import { Public, User } from 'src/decorator/customize';
 import { User as UserType } from 'src/users/user.interface';
 
 @Controller('companies')
@@ -15,11 +15,13 @@ export class CompaniesController {
   }
 
   @Get()
+  @Public()
   findAll(@Query("current") page: string, @Query("pageSize") limit: string, @Query() qs: string) {
     return this.companiesService.findAll(+page, +limit, qs);
   }
 
   @Get(':id')
+  @Public()
   findOneCompany(@Param('id') id: string) {
     return this.companiesService.findOne(id);
   }

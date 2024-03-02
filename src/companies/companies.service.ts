@@ -65,13 +65,9 @@ export class CompaniesService {
     if(!mongoose.Types.ObjectId.isValid(id)){
       throw new BadRequestException(`Not found company with ${id}`)
     }
-    const result = await this.companyModel.findOne({
+    return await this.companyModel.findOne({
       _id: id
     })
-    return {
-      message: 'Get company successfully',
-      result
-    }
   }
 
   async update(id: string, updateCompanyDto: UpdateCompanyDto, user: User) {

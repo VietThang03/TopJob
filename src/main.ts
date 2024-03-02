@@ -6,6 +6,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TransformInterceptor } from './core/transform.interceptor';
 import * as cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -13,7 +14,9 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('ejs');
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true
+  }));
   app.useGlobalInterceptors(new TransformInterceptor());
   app.setGlobalPrefix('api');
   app.enableVersioning({
@@ -29,6 +32,7 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
     credentials: true
   });
+  app.use(helmet())
   await app.listen(configService.get<string>('PORT'));
 }
 bootstrap();

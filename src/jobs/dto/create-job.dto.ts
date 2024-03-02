@@ -12,6 +12,11 @@ class Company{
         message: "Name không được để trống!!!"
     })
     name: string
+
+    @IsNotEmpty({
+        message: "Logo không được để trống!!!"
+    })
+    logo: string
 }
 
 export class CreateJobDto {
@@ -71,6 +76,14 @@ export class CreateJobDto {
     })
     description: string
 
+    @IsString({
+        message:"Location phải có định dạng string"
+    })
+    @IsNotEmpty({
+        message:"Location không được để trống!!!"
+    })
+    location: string
+
     @IsDate({
         message:"StartDate phải có định dạng Date!!!"
     })
@@ -97,11 +110,11 @@ export class CreateJobDto {
     })
     isActive: boolean
 
-    @IsString({
-        message:"Logo phải có định dạng string"
-    })
-    @IsNotEmpty({
-        message:"Logo không được để trống!!!"
-    })
-    logo: string
+    // @IsString({
+    //     message:"Logo phải có định dạng string"
+    // })
+    // @IsNotEmpty({
+    //     message:"Logo không được để trống!!!"
+    // })
+    // logo: string
 }
